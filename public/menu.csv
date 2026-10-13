@@ -8,13 +8,16 @@ mercury,planets,Mercury,"Small, hot, fast.",https://example.com/planets/mercury
 venus,planets,Venus,"Medium-sized, hot, cloudy.",https://example.com/planets/venus
 earth,planets,Earth,"Should be pretty familiar; we're all there.",https://example.com/planets/earth
 mars,planets,Mars,"Still might find aliens; you never know.",https://example.com/planets/mars
-stars,explore,Stars,"From red dwarfs to supergiants — the engines of every galaxy.",https://example.com/stars
-galaxies,explore,Galaxies,"Spiral, elliptical, and irregular islands of billions of stars.",https://example.com/galaxies
-past,missions,Past Missions,"Historic flights that defined the early age of exploration.",https://example.com/past
-active,missions,Active Missions,"Spacecraft currently operating across the solar system.",https://example.com/active
-planned,missions,Planned Missions,"What launches next — the roadmap of upcoming journeys.",https://example.com/planned
-propulsion,technology,Propulsion,"Chemical, ion, and next-generation drive systems.",https://example.com/propulsion
-navigation,technology,Navigation,"Star trackers, inertial guidance, and deep-space positioning.",https://example.com/navigation
-life-support,technology,Life Support,"Air, water, and thermal systems that keep crews alive.",https://example.com/life-support
-team,about,Team,"The engineers, scientists, and dreamers behind the mission.",https://example.com/team
-contact,about,Contact,"Open a channel — get in touch with mission control.",https://example.com/contact
+stars,explore,Stars,"From red dwarfs to supergiants — the engines of every galaxy.",https://example.com/explore/stars
+galaxies,explore,Galaxies,"Spiral, elliptical, and irregular islands of billions of stars.",https://example.com/explore/galaxies
+past,missions,Past Missions,"Historic flights that defined the early age of exploration.",https://example.com/missions/past
+active,missions,Active Missions,"Spacecraft currently operating across the solar system.",https://example.com/missions/active
+planned,missions,Planned Missions,"What launches next — the roadmap of upcoming journeys.",https://example.com/missions/planned
+propulsion,technology,Propulsion,"Chemical, ion, and next-generation drive systems.",https://example.com/technology/propulsion
+navigation,technology,Navigation,"Star trackers, inertial guidance, and deep-space positioning.",https://example.com/technology/navigation
+life-support,technology,Life Support,"Air, water, and thermal systems that keep crews alive.",https://example.com/technology/life-support
+team,about,Team,"The engineers, scientists, and dreamers behind the mission.",https://example.com/about/team
+astronauts,team,Astronauts,"The right stuff rock stars.",https://example.com/about/team/astronauts
+scientists,team,Scientists,"The big brains behind it all.",https://example.com/about/team/scientists
+support,team,Support Staff,"Whiteboard jockeys and planning people who make it happen.",https://example.com/about/team/staff
+contact,about,Contact,"Open a channel — get in touch with mission control.",https://example.com/about/contact

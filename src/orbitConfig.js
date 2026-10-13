@@ -30,6 +30,7 @@ export const orbitConfig = {
   // ─── Motion ──────────────────────────────────────────────────────────
   baseSpeed: 0.22, // angular speed in radians/sec
   speedVariation: 0.0, // per-satellite speed spread, to de-sync the orbits
+  releaseDuration: 700, // ms to glide a frozen satellite back to its true orbit on mouseout
 }
 
 export default orbitConfig

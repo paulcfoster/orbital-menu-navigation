@@ -19,6 +19,8 @@ export default function OrbitalMenu({ tree }) {
 
   // --- animation state kept in refs so the rAF loop never restarts ---
   const anglesRef = useRef({})
+  const lagRef = useRef({})
+  const releaseRef = useRef({})
   const hoveredRef = useRef(null)
   const zoomingRef = useRef(false)
   const fieldRef = useRef(null)
@@ -34,20 +36,59 @@ export default function OrbitalMenu({ tree }) {
       next[s.id] = (i / satellites.length) * Math.PI * 2
     })
     anglesRef.current = next
+    lagRef.current = {}
+    releaseRef.current = {}
   }, [satellites])
 
   // Single persistent animation loop.
   useEffect(() => {
     let raf
     let last = null
+    const easeInOutCubic = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+    const clamp = (v, min, max) => Math.min(Math.max(v, min), max)
+
     const loop = (ts) => {
       if (last == null) last = ts
       const dt = (ts - last) / 1000
       last = ts
       const a = anglesRef.current
+      const lag = lagRef.current
+      const releases = releaseRef.current
+
       Object.keys(a).forEach((id, i) => {
-        const frozen = id === hoveredRef.current || zoomingRef.current
-        if (!frozen) a[id] += dt * speedFor(i)
+        const isZooming = zoomingRef.current
+        const isHovered = id === hoveredRef.current
+
+        // Always advance true angle unless zooming
+        if (!isZooming) {
+          a[id] += dt * speedFor(i)
+        }
+
+        // Handle lag changes and releases
+        if (isZooming) {
+          // No change to lag while zooming
+        } else if (isHovered) {
+          // Cancel any release and grow lag to keep displayed angle constant
+          delete releases[id]
+          if (!lag[id]) lag[id] = 0
+          lag[id] += dt * speedFor(i)
+        } else if (lag[id] > 0) {
+          // Not hovered and has lag: start or continue release
+          if (!releases[id]) {
+            // Start release: record initial lag (clamped to one lap forward)
+            releases[id] = { t0: ts, lag0: lag[id] % (2 * Math.PI) }
+          }
+
+          const rel = releases[id]
+          const elapsed = (ts - rel.t0) / orbitConfig.releaseDuration
+          const p = clamp(elapsed, 0, 1)
+          lag[id] = rel.lag0 * (1 - easeInOutCubic(p))
+
+          if (p >= 1) {
+            lag[id] = 0
+            delete releases[id]
+          }
+        }
       })
       tick()
       raf = requestAnimationFrame(loop)
@@ -127,6 +168,7 @@ export default function OrbitalMenu({ tree }) {
         <OrbitContent
           satellites={satellites}
           anglesRef={anglesRef}
+          lagRef={lagRef}
           focusNode={focusNode}
           hoveredId={hoveredId}
           setHoveredId={setHoveredId}
@@ -143,6 +185,7 @@ export default function OrbitalMenu({ tree }) {
 function OrbitContent({
   satellites,
   anglesRef,
+  lagRef,
   focusNode,
   hoveredId,
   setHoveredId,
@@ -204,7 +247,9 @@ function OrbitContent({
       </button>
 
       {satellites.map((node) => {
-        const angle = anglesRef.current[node.id] ?? 0
+        const trueAngle = anglesRef.current[node.id] ?? 0
+        const lag = lagRef.current[node.id] ?? 0
+        const angle = trueAngle - lag
 
         // Satellite position on a flat circle, then rotate that circle's
         // plane: first about the X axis (tiltX), then the Y axis (tiltY).
