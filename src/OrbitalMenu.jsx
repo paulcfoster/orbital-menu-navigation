@@ -57,18 +57,11 @@ export default function OrbitalMenu({ tree }) {
   }, [])
 
   const handleSelect = (node, x, y, cx, cy) => {
-    // console.log(node)
-    // console.log(x)
-    // console.log(y)
-    // console.log(cx)
-    // console.log(cy)
-    // console.log(zoom)
-    // return
     if (zoom) return
     if (node.children.length > 0) {
       // Zoom into this satellite: glide it to center, scale up, then swap focus.
       setHoveredId(null)
-      setZoom({ dx: cx - x, dy: cy - y })
+      setZoom({ dx: cx, dy: cy })
       window.setTimeout(() => {
         setFocusId(node.id)
         setZoom(null)
@@ -84,18 +77,45 @@ export default function OrbitalMenu({ tree }) {
     setFocusId(parentId)
   }
 
-  const hoveredNode = hoveredId ? byId.get(hoveredId) : null
+  const breadcrumbTrail = () => {
+    if (!focusId) return []
+    const trail = []
+    let currentId = focusId
+    
+    while (currentId) {
+      const node = byId.get(currentId)
+      if (!node) break
+      trail.unshift(node)
+      currentId = node.parentId
+    }
+    return trail
+  }
 
   return (
     <div className="orbital-root">
       <div className="starfield"/>
 
       <header className="masthead">
-        <h1>Orbital Menu Navigation</h1>
-        {focusNode && (
-          <button className="back-link" onClick={handleZoomOut}>
-            ← {parentId ? byId.get(parentId).label : 'Top orbit'}
-          </button>
+        
+        {breadcrumbTrail && (
+          <nav className="breadcrumbs">
+            <h1 onClick={() => setFocusId("")}>Orbital Menu Navigation</h1>
+            {breadcrumbTrail().map((node, index, arr) => (
+              <span key={node.id} className={node.id}>
+                {<span className="breadcrumb-sep"> › </span>}
+                {index === arr.length - 1 ? (
+                  <span className="breadcrumb-current">{node.label}</span>
+                ) : (
+                  <a 
+                    className="breadcrumb-link" 
+                    onClick={() => setFocusId(node.id)}
+                  >
+                    {node.label}
+                  </a>
+                )}
+              </span>
+            ))}
+          </nav>
         )}
       </header>
 
@@ -114,18 +134,6 @@ export default function OrbitalMenu({ tree }) {
           onCoreClick={handleZoomOut}
         />
       </div>
-
-      {hoveredNode && (
-        <aside className="description-panel">
-          <h2>{hoveredNode.label}</h2>
-          <p>{hoveredNode.description}</p>
-          {hoveredNode.children.length > 0 ? (
-            <span className="hint">Click to enter orbit →</span>
-          ) : hoveredNode.link ? (
-            <span className="hint">Click to open ↗</span>
-          ) : null}
-        </aside>
-      )}
     </div>
   )
 }
@@ -175,14 +183,6 @@ function OrbitContent({
   const cosY = Math.cos(tiltY)
   const sinY = Math.sin(tiltY)
 
-  // The guide ring is the orbit circle projected onto the screen. With an
-  // orthographic projection that ellipse's axes shrink by cos(tilt).
-  // const ringW = radius * 2 * Math.abs(cosY)
-  // const ringH = radius * 2 * Math.abs(cosX)
-  // Hiding as it does not line up well with "Saturn ring tilt" (see orbitConfig.js)
-  // Previous sat just within .orbit-wrap.
-  // <div className="orbit-ring" style={{ width: ringW, height: ringH, left: cx, top: cy }} />
-
   const coreSphereStyles = { left: cx, top: cy }
   const testAttr = "tabindex: '-1'"
   // Planet is not clickable if at top level.
@@ -200,7 +200,7 @@ function OrbitContent({
         aria-label={focusNode ? 'Zoom back out' : ''}
         tabIndex={focusNode ? '1' : '-1'}
       >
-        <span>{focusNode ? focusNode.label : 'Orbital Menu'}</span>
+        {/* <span>Back up to {focusNode ? focusNode.label : 'Orbital Menu'}</span> */}
       </button>
 
       {satellites.map((node) => {
@@ -225,8 +225,16 @@ function OrbitContent({
         // The core sphere sits at z-index 2 (see index.css).
         const zIndex = isHovered ? 4 : z < 0 ? 1 : 3
 
+        const handleKeyDown = (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            onSelect(node, x, y, cx, cy)
+          }
+        }
         return (
-          <button
+          <div
+            role="button"
+            tabIndex={0}
             key={node.id}
             className={`satellite${isHovered ? ' frozen' : ''}${
               node.children.length ? ` has-children-${node.children.length}` : ''
@@ -235,18 +243,42 @@ function OrbitContent({
             onMouseEnter={() => setHoveredId(node.id)}
             onMouseLeave={() => setHoveredId((cur) => (cur === node.id ? null : cur))}
             onClick={() => onSelect(node, x, y, cx, cy)}
+            onKeyDown={handleKeyDown}
           >
             <span className="base-sphere satellite-dot" />
             <span className="satellite-label">{node.label}</span>
-            {/* <div className="description-panel">
+            {isHovered && (
+              <div className="description-panel">
+                <h2 className="satellite-label">{node.label}</h2>
                 <p>{node.description}</p>
-                {node.children.length > 0 ? (
-                  <span className="hint">Click to enter orbit →</span>
-                ) : node.link ? (
-                  <span className="hint">Click to open ↗</span>
-                ) : null}
-            </div> */}
-          </button>
+                {node.children.length > 0 && (
+                  <ul className="children-links">
+                    {node.children.map((child) => (
+                      <li key={child.id}>
+                        {child.children.length > 0 ? (
+                          <a
+                            href=""
+                            onClick={() => onSelect(node, x, y, cx, cy)}
+                          >
+                            {child.label}
+                          </a>
+                        ) : (
+                          <a
+                            href={child.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {child.label}
+                          </a>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+          </div>
         )
       })}
     </div>

@@ -3,10 +3,11 @@ explore,,Explore,"Survey the cosmos — planets, stars, and distant galaxies wai
 missions,,Missions,"Crewed and robotic journeys across the past, present, and future of spaceflight.",
 technology,,Technology,"The engineering that makes orbit possible: propulsion, guidance, and survival.",
 about,,About,"Who we are and how to reach the crew behind the program.",
-planets,explore,Planets,"Rocky worlds and gas giants orbiting our star and others.",https://example.com/planets
-mercury,planets,Mercury,"Small, hot, fast.",https://example.com/planets
-venus,planets,Venus,"Medium-sized, hot, cloudy.",https://example.com/planets
-earth,planets,Earth,"Should be pretty familiar; we're all there.",https://example.com/planets
+planets,explore,Planets,"Rocky worlds and gas giants orbiting our star and others.",
+mercury,planets,Mercury,"Small, hot, fast.",https://example.com/planets/mercury
+venus,planets,Venus,"Medium-sized, hot, cloudy.",https://example.com/planets/venus
+earth,planets,Earth,"Should be pretty familiar; we're all there.",https://example.com/planets/earth
+mars,planets,Mars,"Still might find aliens; you never know.",https://example.com/planets/mars
 stars,explore,Stars,"From red dwarfs to supergiants — the engines of every galaxy.",https://example.com/stars
 galaxies,explore,Galaxies,"Spiral, elliptical, and irregular islands of billions of stars.",https://example.com/galaxies
 past,missions,Past Missions,"Historic flights that defined the early age of exploration.",https://example.com/past

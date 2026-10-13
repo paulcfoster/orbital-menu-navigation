@@ -21,19 +21,6 @@
     radial-gradient(circle at 32% 30%, var(--planet-color-highlight), var(--planet-color-median) 45%, var(--planet-color-shadow) 90%);
 }
 
-/* currently commented out in OrbitalMenu.jsx */
-/*
-.orbit-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
-  border: 1px dashed rgba(108, 198, 255, 0.18);
-  border-radius: 50%;
-  pointer-events: none;
-}
-*/
-
 .core-sphere {
   position: absolute;
   top: 50%;
@@ -48,12 +35,6 @@
   font-weight: 700;
   letter-spacing: 0.04em;
   font-size: 1rem;
-  /* sphere color gradient */
-  /* see base-sphere
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 32% 30%, var(--planet-color-highlight), var(--planet-color-median) 45%, var(--planet-color-shadow) 90%);
-  */
   /* earthshine */
   box-shadow:
     0 0 60px rgba(74, 166, 255, 0.55),
@@ -62,9 +43,11 @@
 }
 
 .core-sphere span {
+  top:0;
+  right: 0;
   color: var(--planet-color-shadow);
   text-shadow: 0 1px 4px var(--planet-color-highlight);
-  opacity: 0;
+  /* opacity: 0; */
   transition: opacity .2s ease-out;
   -moz-transition: opacity .2s ease-out;
   -webkit-transition: opacity .2s ease-out;

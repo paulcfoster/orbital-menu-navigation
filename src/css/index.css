@@ -68,55 +68,16 @@ body {
   text-transform: uppercase;
   margin: 0;
   color: var(--accent);
-}
-
-.back-link {
-  background: rgba(108, 198, 255, 0.1);
-  border: 1px solid rgba(108, 198, 255, 0.35);
-  color: var(--accent);
-  border-radius: 999px;
-  padding: 0.35rem 0.9rem;
   cursor: pointer;
-  font-size: 0.85rem;
-  transition: background 0.2s;
+  display: inline;
 }
-
-.back-link:hover {
-  background: rgba(108, 198, 255, 0.22);
-}
-
-/* on hover over satellite link */
-.description-panel {
-  position: absolute;
-  right: 2rem;
-  bottom: 2rem;
-  max-width: 320px;
-  padding: 1.1rem 1.3rem;
-  background: rgba(10, 14, 32, 0.82);
-  border: 1px solid rgba(108, 198, 255, 0.3);
-  border-radius: 14px;
-  backdrop-filter: blur(8px);
-  z-index: 6;
-  animation: fadeIn 0.2s ease;
-}
-
-.description-panel h2 {
-  margin: 0 0 0.5rem;
-  font-size: 1.05rem;
+.breadcrumb-link {
+  cursor: pointer;
   color: var(--accent);
 }
-
-.description-panel p {
-  margin: 0 0 0.6rem;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  opacity: 0.9;
-}
-
-.description-panel .hint {
-  font-size: 0.78rem;
-  color: var(--accent-warm);
-  letter-spacing: 0.03em;
+.masthead h1:hover,
+.breadcrumb-link:hover {
+  text-decoration: underline;
 }
 
 /* description panel, etc. */
