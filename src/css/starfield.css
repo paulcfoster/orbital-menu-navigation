@@ -1,0 +1,30 @@
+.starfield {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 60%, #cfe3ff, transparent),
+    radial-gradient(1px 1px at 40% 80%, #fff, transparent),
+    radial-gradient(2px 2px at 85% 25%, #fff, transparent),
+    radial-gradient(1px 1px at 55% 15%, #bcd, transparent),
+    radial-gradient(1px 1px at 40% 50%, #fff, transparent),
+    radial-gradient(1px 1px at 90% 80%, #cfe3ff, transparent),
+    radial-gradient(1px 1px at 60% 100%, #fff, transparent),
+    radial-gradient(2px 2px at 95% 35%, #fff, transparent),
+    radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 75% 35%, #bcd, transparent);
+  background-size: 600px 600px;
+  opacity: 0.75;
+  animation: drift 200s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes drift {
+  to {
+    background-position: 600px 600px;
+  }
+}

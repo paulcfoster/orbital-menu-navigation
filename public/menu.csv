@@ -1,0 +1,19 @@
+id,parentId,label,description,link
+explore,,Explore,"Survey the cosmos — planets, stars, and distant galaxies waiting to be charted.",
+missions,,Missions,"Crewed and robotic journeys across the past, present, and future of spaceflight.",
+technology,,Technology,"The engineering that makes orbit possible: propulsion, guidance, and survival.",
+about,,About,"Who we are and how to reach the crew behind the program.",
+planets,explore,Planets,"Rocky worlds and gas giants orbiting our star and others.",https://example.com/planets
+mercury,planets,Mercury,"Small, hot, fast.",https://example.com/planets
+venus,planets,Venus,"Medium-sized, hot, cloudy.",https://example.com/planets
+earth,planets,Earth,"Should be pretty familiar; we're all there.",https://example.com/planets
+stars,explore,Stars,"From red dwarfs to supergiants — the engines of every galaxy.",https://example.com/stars
+galaxies,explore,Galaxies,"Spiral, elliptical, and irregular islands of billions of stars.",https://example.com/galaxies
+past,missions,Past Missions,"Historic flights that defined the early age of exploration.",https://example.com/past
+active,missions,Active Missions,"Spacecraft currently operating across the solar system.",https://example.com/active
+planned,missions,Planned Missions,"What launches next — the roadmap of upcoming journeys.",https://example.com/planned
+propulsion,technology,Propulsion,"Chemical, ion, and next-generation drive systems.",https://example.com/propulsion
+navigation,technology,Navigation,"Star trackers, inertial guidance, and deep-space positioning.",https://example.com/navigation
+life-support,technology,Life Support,"Air, water, and thermal systems that keep crews alive.",https://example.com/life-support
+team,about,Team,"The engineers, scientists, and dreamers behind the mission.",https://example.com/team
+contact,about,Contact,"Open a channel — get in touch with mission control.",https://example.com/contact

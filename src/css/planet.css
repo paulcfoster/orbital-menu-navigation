@@ -1,0 +1,88 @@
+
+.orbit-field {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.65s cubic-bezier(0.6, 0, 0.4, 1), opacity 0.65s ease;
+}
+
+.orbit-field.zooming {
+  transform: translate(var(--dx), var(--dy)) scale(7);
+  opacity: 0;
+}
+
+.orbit-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+.base-sphere {
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 30%, var(--planet-color-highlight), var(--planet-color-median) 45%, var(--planet-color-shadow) 90%);
+}
+
+/* currently commented out in OrbitalMenu.jsx */
+/*
+.orbit-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  border: 1px dashed rgba(108, 198, 255, 0.18);
+  border-radius: 50%;
+  pointer-events: none;
+}
+*/
+
+.core-sphere {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 150px;
+  height: 150px;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  color: #001;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: 1rem;
+  /* sphere color gradient */
+  /* see base-sphere
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 30%, var(--planet-color-highlight), var(--planet-color-median) 45%, var(--planet-color-shadow) 90%);
+  */
+  /* earthshine */
+  box-shadow:
+    0 0 60px rgba(74, 166, 255, 0.55),
+    inset -18px -22px 50px rgba(0, 0, 20, 0.55);
+  animation: corePulse 6s ease-in-out infinite;
+}
+
+.core-sphere span {
+  color: var(--planet-color-shadow);
+  text-shadow: 0 1px 4px var(--planet-color-highlight);
+  opacity: 0;
+  transition: opacity .2s ease-out;
+  -moz-transition: opacity .2s ease-out;
+  -webkit-transition: opacity .2s ease-out;
+  -o-transition: opacity .2s ease-out;
+}
+
+.core-sphere:hover span {
+  opacity: 1;
+  transition: opacity .2s ease-out;
+  -moz-transition: opacity .2s ease-out;
+  -webkit-transition: opacity .2s ease-out;
+  -o-transition: opacity .2s ease-out;
+}
+
+@keyframes corePulse {
+  50% {
+    box-shadow:
+      0 0 90px rgba(74, 166, 255, 0.8),
+      inset -18px -22px 50px rgba(0, 0, 20, 0.55);
+  }
+}

@@ -1,0 +1,92 @@
+.satellite {
+  position: absolute;
+  translate: -50% -50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: scale 0.25s ease;
+}
+
+.satellite:hover,
+.satellite.frozen {
+  scale: 2;
+  z-index: 4;
+  opacity: 100%;
+}
+
+.satellite-dot {
+  width: 8px;
+  height: 8px;
+  /* see .base-sphere
+  background: radial-gradient(circle at 32% 30%, var(--planet-color-highlight), var(--planet-color-median) 45%, var(--planet-color-shadow) 90%);
+  border-radius: 50%;
+  /* background: radial-gradient(circle at 32% 30%, #fff, #ffb347 60%, #a85b00 100%); */
+  /* box-shadow: 0 0 16px rgba(255, 179, 71, 0.7); */
+}
+
+.satellite[class*="has-children"] .satellite-dot {
+  /* 
+  background: radial-gradient(circle at 32% 30%, var(--planet-color-highlight), var(--planet-color-median) 45%, var(--planet-color-shadow) 90%);
+  box-shadow: 0 0 18px rgba(108, 198, 255, 0.8);
+  */
+}
+
+.satellite.frozen .satellite-dot {
+  /* outline: 2px solid rgba(255, 255, 255, 0.7);
+  outline-offset: 3px; */
+}
+
+.satellite-label {
+  font-family: monospace;
+  text-transform: lowercase;
+  font-size: 0.6rem;
+  white-space: nowrap;
+  color: #dfe7ff;
+  text-shadow: 0 1px 6px #000;
+}
+
+.satellite:hover .description-panel,
+.satellite.frozen .description-panel {
+  /* scale: 1;
+  z-index: 4;
+  opacity: 100%; */
+}
+/* on hover over satellite link */
+.satellite .description-panel {
+  position: absolute;
+  right: 50%;
+  bottom: 50%;
+  max-width: 320px;
+  padding: 1.1rem 1.3rem;
+  background: rgba(10, 14, 32, 0.82);
+  border: 1px solid rgba(108, 198, 255, 0.3);
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+  z-index: 6;
+  /* opacity: 0; */
+  animation: fadeIn 0.2s ease;
+}
+
+.satellite .description-panel h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  color: var(--accent);
+}
+
+.satellite .description-panel p {
+  margin: 0 0 0.6rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.satellite .description-panel .hint {
+  font-size: 0.78rem;
+  color: var(--accent-warm);
+  letter-spacing: 0.03em;
+}

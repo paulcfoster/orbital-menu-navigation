@@ -1,0 +1,128 @@
+/* variables */
+:root {
+  --bg-deep: #05060f;
+  --accent: #baff6c;
+  --accent-warm: #ffd27a;
+  color-scheme: dark;
+  --planet-color-highlight: #ffbfec;
+  --planet-color-median: #ff4a8c;
+  --planet-color-shadow: #1a418f;
+  --satellite-color-highlight: #f97970;
+  --satellite-color-median: #fc4538;
+  --satellite-color-shadow: #57082f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: radial-gradient(circle at 30% 20%, #131634, var(--bg-deep) 70%);
+  color: #e8ecff;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+}
+
+/* system messages */
+.status {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+}
+
+.orbital-root {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* top-level messaging section */
+.masthead {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1.25rem 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 5;
+}
+
+.masthead h1 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 0;
+  color: var(--accent);
+}
+
+.back-link {
+  background: rgba(108, 198, 255, 0.1);
+  border: 1px solid rgba(108, 198, 255, 0.35);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+
+.back-link:hover {
+  background: rgba(108, 198, 255, 0.22);
+}
+
+/* on hover over satellite link */
+.description-panel {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  max-width: 320px;
+  padding: 1.1rem 1.3rem;
+  background: rgba(10, 14, 32, 0.82);
+  border: 1px solid rgba(108, 198, 255, 0.3);
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+  z-index: 6;
+  animation: fadeIn 0.2s ease;
+}
+
+.description-panel h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  color: var(--accent);
+}
+
+.description-panel p {
+  margin: 0 0 0.6rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.description-panel .hint {
+  font-size: 0.78rem;
+  color: var(--accent-warm);
+  letter-spacing: 0.03em;
+}
+
+/* description panel, etc. */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
