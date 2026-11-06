@@ -107,6 +107,7 @@ export default function OrbitalMenu({ tree }) {
   }, [])
 
   const handleSelect = (node, x, y, cx, cy) => {
+    // If currently animating, disable clicks.
     if (zoom) return
     if (node.children.length > 0) {
       // Zoom into this satellite: glide it to center, scale up, then swap focus.
@@ -131,7 +132,8 @@ export default function OrbitalMenu({ tree }) {
         setZoom(null)
       }, 650)
     } else if (node.link) {
-      window.open(node.link, '_blank', 'noopener')
+      // window.open(node.link, '_blank', 'noopener')
+      console.log('open html page')
     }
   }
 
@@ -146,7 +148,8 @@ export default function OrbitalMenu({ tree }) {
     timeoutRef.current = window.setTimeout(() => {
       setFocusId(parentId)
       setZoomingOut(false)
-      setArriving(true)
+      setZoom(null)
+      // setArriving(true)
     }, 650)
   }
 
@@ -206,6 +209,7 @@ export default function OrbitalMenu({ tree }) {
           setHoveredId={setHoveredId}
           onSelect={handleSelect}
           onCoreClick={handleZoomOut}
+          isZooming={zoom}
         />
       </div>
     </div>
@@ -223,6 +227,7 @@ function OrbitContent({
   setHoveredId,
   onSelect,
   onCoreClick,
+  isZooming
 }) {
   const wrapRef = useRef(null)
   const [size, setSize] = useState({ w: 800, h: 600 })
@@ -275,7 +280,7 @@ function OrbitContent({
         aria-label={focusNode ? 'Zoom back out' : ''}
         tabIndex={focusNode ? '1' : '-1'}
       >
-        {/* <span>Back up to {focusNode ? focusNode.label : 'Orbital Menu'}</span> */}
+        {/* {focusNode && (<span>up</span>)} */}
       </button>
 
       {satellites.map((node) => {
@@ -293,11 +298,13 @@ function OrbitContent({
         const y = cy + py
         const z = -px * sinY + pz0 * cosY // signed depth: +toward viewer
 
+        // const isZooming = isZooming
+        const isHovered = node.id === hoveredId
         // Depth cues. zNorm is −1 (farthest) … +1 (nearest).
         const zNorm = radius ? z / radius : 0
-        const depth = 1 + zNorm * depthScale
-        const opacity = minOpacity + (1 - minOpacity) * ((zNorm + 1) / 2)
-        const isHovered = node.id === hoveredId
+        // If is hovered, allow animate in css to full size and opacity.
+        const depth = isHovered || isZooming ? 1 : 1 + zNorm * depthScale
+        const opacity = isHovered || isZooming ? 1 : minOpacity + (1 - minOpacity) * ((zNorm + 1) / 2)
         // Behind the core (z<0) paints under it; in front paints over it.
         // The core sphere sits at z-index 2 (see index.css).
         const zIndex = isHovered ? 4 : z < 0 ? 1 : 3
@@ -308,6 +315,7 @@ function OrbitContent({
             onSelect(node, x, y, cx, cy)
           }
         }
+        const hoverAllowed = isZooming ? 'none' : 'default'
         return (
           <div
             role="button"
@@ -316,14 +324,16 @@ function OrbitContent({
             className={`satellite${isHovered ? ' frozen' : ''}${
               node.children.length ? ` has-children-${node.children.length}` : ''
             }`}
-            style={{ left: x, top: y, transform: `scale(${depth})`, opacity, zIndex }}
+            style={{ pointerEvents: hoverAllowed, left: x, top: y, transform: `scale(${depth})`, opacity, zIndex }}
             onMouseEnter={() => setHoveredId(node.id)}
             onMouseLeave={() => setHoveredId((cur) => (cur === node.id ? null : cur))}
             onClick={() => onSelect(node, x, y, cx, cy)}
             onKeyDown={handleKeyDown}
           >
             <span className="base-sphere satellite-dot" />
-            <span className="satellite-label">{node.label}</span>
+            {!isZooming && (
+              <span className="satellite-label">{node.label}</span>
+            )}
             {isHovered && (
               <div className="description-panel">
                 <h2 className="satellite-label">{node.label}</h2>
@@ -335,7 +345,7 @@ function OrbitContent({
                         {child.children.length > 0 ? (
                           <a
                             href=""
-                            onClick={() => onSelect(node, x, y, cx, cy)}
+                            onClick={(e) => {e.stopPropagation(); onSelect(child, x, y, cx, cy);}}
                           >
                             {child.label}
                           </a>
