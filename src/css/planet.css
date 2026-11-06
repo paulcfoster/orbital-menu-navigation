@@ -10,6 +10,26 @@
   opacity: 0;
 }
 
+.orbit-field.zooming-out {
+  transform: scale(0.15);
+  opacity: 0;
+}
+
+.orbit-field.arriving {
+  animation: orbitArriving 0.4s cubic-bezier(0.6, 0, 0.4, 1) forwards;
+}
+
+@keyframes orbitArriving {
+  from {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 .orbit-wrap {
   position: absolute;
   inset: 0;

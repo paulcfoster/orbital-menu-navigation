@@ -1,6 +1,6 @@
 .starfield {
   position: absolute;
-  inset: 0;
+  inset: -75%;
   background-image:
     radial-gradient(1px 1px at 20% 30%, #fff, transparent),
     radial-gradient(1px 1px at 70% 60%, #cfe3ff, transparent),
@@ -21,6 +21,8 @@
   opacity: 0.75;
   animation: drift 200s linear infinite;
   pointer-events: none;
+  transition: transform 0.65s cubic-bezier(0.6, 0, 0.4, 1);
+  transform-origin: center;
 }
 
 @keyframes drift {

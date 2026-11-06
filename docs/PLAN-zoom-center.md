@@ -26,18 +26,11 @@ To avoid empty corners while rotated, enlarge the starfield in `starfield.css`: 
 
 Timeout hygiene: store timeout ids in a ref and clear on unmount (zoom-in currently doesn't; apply to both while here).
 
+Breadcrumb links should also ShrinkOut.
+
 ## Files
 - `src/OrbitalMenu.jsx`: handleSelect math, handleZoomOut animation, new state (`zoomingOut`, `spin`, arrive flag), field className, starfield style.
 - `src/css/planet.css`: `.orbit-field.zooming-out`, `.orbit-field.arriving` keyframes.
 - `src/css/starfield.css`: bigger inset, transform transition.
 
-## Out of scope (flagging)
-Breadcrumb links and the `<h1>` call `setFocusId` directly, so they still switch instantly with no animation. Not changed unless you want them routed through the same zoom-out.
 
-## Verification
-- `export PATH="$HOME/.nvm/versions/node/v24.16.0/bin:$PATH"; npm run dev`, open http://localhost:5173.
-- Click satellites at several orbit positions (left/right/top/bottom/front/back): clicked satellite scales up and glides to the center sphere position.
-- In a submenu, click the core sphere: field shrinks and fades, starfield visibly rotates ~90deg, parent orbit eases in. Repeat to confirm rotation accumulates with no snap and no empty corners at wide and narrow window sizes.
-- Click rapidly during animations: no double triggers or stuck states.
-- Keyboard Enter/Space on a satellite and the description-panel child links still work.
-- `npm run build` passes.

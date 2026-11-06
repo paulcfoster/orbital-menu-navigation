@@ -6,12 +6,17 @@ import { orbitConfig } from './orbitConfig'
 const speedFor = (i) =>
   orbitConfig.baseSpeed + (i % 3) * orbitConfig.speedVariation
 
+const ZOOM_SCALE = 7 // must match planet.css .orbit-field.zooming scale()
+
 export default function OrbitalMenu({ tree }) {
   const { byId, roots } = tree
 
   const [focusId, setFocusId] = useState(null) // null = top-level orbit
   const [hoveredId, setHoveredId] = useState(null)
   const [zoom, setZoom] = useState(null) // { dx, dy } while zooming in/out
+  const [zoomingOut, setZoomingOut] = useState(false)
+  const [arriving, setArriving] = useState(false)
+  const [spin, setSpin] = useState(0)
 
   const focusNode = focusId ? byId.get(focusId) : null
   const satellites = focusNode ? focusNode.children : roots
@@ -24,10 +29,11 @@ export default function OrbitalMenu({ tree }) {
   const hoveredRef = useRef(null)
   const zoomingRef = useRef(false)
   const fieldRef = useRef(null)
+  const timeoutRef = useRef(null)
   const [, tick] = useReducer((x) => x + 1, 0)
 
   hoveredRef.current = hoveredId
-  zoomingRef.current = !!zoom
+  zoomingRef.current = !!zoom || zoomingOut
 
   // Seed angles whenever the set of satellites changes.
   useEffect(() => {
@@ -94,7 +100,10 @@ export default function OrbitalMenu({ tree }) {
       raf = requestAnimationFrame(loop)
     }
     raf = requestAnimationFrame(loop)
-    return () => cancelAnimationFrame(raf)
+    return () => {
+      cancelAnimationFrame(raf)
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
   }, [])
 
   const handleSelect = (node, x, y, cx, cy) => {
@@ -102,7 +111,21 @@ export default function OrbitalMenu({ tree }) {
     if (node.children.length > 0) {
       // Zoom into this satellite: glide it to center, scale up, then swap focus.
       setHoveredId(null)
-      setZoom({ dx: cx, dy: cy })
+      // Spin the star field an arbitrary amount (and always opposite the last spin).
+      // setSpin((s) => (s + Math.floor(Math.random()*90)) * -1)
+
+      // Calculate transform to land the clicked satellite on the core position
+      const rect = fieldRef.current?.getBoundingClientRect()
+      if (rect) {
+        const w = rect.width
+        const h = rect.height
+        const dx = cx - w / 2 - ZOOM_SCALE * (x - w / 2)
+        const dy = cy - h / 2 - ZOOM_SCALE * (y - h / 2)
+        setZoom({ dx, dy })
+      } else {
+        setZoom({ dx: cx, dy: cy })
+      }
+
       window.setTimeout(() => {
         setFocusId(node.id)
         setZoom(null)
@@ -113,9 +136,18 @@ export default function OrbitalMenu({ tree }) {
   }
 
   const handleZoomOut = () => {
-    if (zoom || !focusNode) return
+    if (zoom || zoomingOut || !focusNode) return
     setHoveredId(null)
-    setFocusId(parentId)
+    setZoomingOut(true)
+    // Spin the star field an arbitrary amount (and always opposite the last spin).
+    // setSpin((s) => (s + Math.floor(Math.random()*90)) * -1)
+
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    timeoutRef.current = window.setTimeout(() => {
+      setFocusId(parentId)
+      setZoomingOut(false)
+      setArriving(true)
+    }, 650)
   }
 
   const breadcrumbTrail = () => {
@@ -134,7 +166,7 @@ export default function OrbitalMenu({ tree }) {
 
   return (
     <div className="orbital-root">
-      <div className="starfield"/>
+      <div className="starfield" style={{ transform: `rotate(${spin}deg) ` }} onAnimationEnd={() => setArriving(false)}/>
 
       <header className="masthead">
         
@@ -162,7 +194,7 @@ export default function OrbitalMenu({ tree }) {
 
       <div
         ref={fieldRef}
-        className={`orbit-field${zoom ? ' zooming' : ''}`}
+        className={`orbit-field${zoom ? ' zooming' : ''}${zoomingOut ? ' zooming-out' : ''}${arriving ? ' arriving' : ''}`}
         style={zoom ? { '--dx': `${zoom.dx}px`, '--dy': `${zoom.dy}px` } : undefined}
       >
         <OrbitContent
