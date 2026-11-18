@@ -25,7 +25,7 @@ menu, no code changes needed. Columns:
 
 ## Orbit tuning
 
-All orbit parameters live in `src/orbitConfig.js` — edit that file, no other
+All orbit parameters live in `src/config/orbitConfig.js` — edit that file, no other
 code changes needed. Notably:
 
 - `tiltX` / `tiltY` — orientation of the orbital plane (angles in radians; use
@@ -45,10 +45,12 @@ z-index. The core sphere has `z-index: 2` so satellites pass behind it.
 public/menu.csv      # menu definition (edit this)
 src/main.jsx         # React entry point
 src/App.jsx          # fetches + parses CSV, renders the menu
-src/OrbitalMenu.jsx  # orbit animation, tilt projection, hover-freeze, zoom
-src/orbitConfig.js   # tunable orbit parameters (tilt, radius, depth, speed)
-src/csv.js           # dependency-free CSV parser + tree builder
-src/index.css        # sphere, starfield, all keyframe animations
+src/components/OrbitalMenu.jsx  # orbit animation, tilt projection, hover-freeze, zoom
+src/components/Content.jsx  # menu tree content management
+src/components/Satellitet.jsx  # sphere and satellite animation and click behavior
+src/config/orbitConfig.js   # tunable orbit parameters (tilt, radius, depth, speed)
+src/util/csv.js           # dependency-free CSV parser + tree builder
+src/css/index.css        # sphere, starfield, all keyframe animations
 ```
 
 ## Running
@@ -70,8 +72,3 @@ npm run preview
 
 Status: scaffolding complete, dependencies installed, production build passes.
 
-## Possible next steps
-
-- Optional swap to a true 3D WebGL sphere via `@react-three/fiber` if a real
-  3D look is wanted (current approach is intentionally light-weight 2D/CSS).
-- Deeper submenu nesting is already supported by the CSV `parentId` model.

@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
 import { orbitConfig, speedFor, ZOOM_SCALE } from '../config/orbitConfig'
 import OrbitContent from './Content'
+import Breadcrumbs from './Breadcrumbs'
 
 export default function OrbitalMenu({ tree }) {
   const { byId, roots } = tree
@@ -151,47 +152,11 @@ export default function OrbitalMenu({ tree }) {
     }, 650)
   }
 
-  const breadcrumbTrail = () => {
-    if (!focusId) return []
-    const trail = []
-    let currentId = focusId
-    
-    while (currentId) {
-      const node = byId.get(currentId)
-      if (!node) break
-      trail.unshift(node)
-      currentId = node.parentId
-    }
-    return trail
-  }
-
   return (
     <div className="orbital-root">
       <div className="starfield" style={{ transform: `rotate(${spin}deg) ` }} onAnimationEnd={() => setArriving(false)}/>
 
-      <header className="masthead">
-        
-        {breadcrumbTrail && (
-          <nav className="breadcrumbs">
-            <h1 onClick={() => setFocusId("")}>Orbital Menu Navigation</h1>
-            {breadcrumbTrail().map((node, index, arr) => (
-              <span key={node.id} className={node.id}>
-                {<span className="breadcrumb-sep"> › </span>}
-                {index === arr.length - 1 ? (
-                  <span className="breadcrumb-current">{node.label}</span>
-                ) : (
-                  <a 
-                    className="breadcrumb-link" 
-                    onClick={() => setFocusId(node.id)}
-                  >
-                    {node.label}
-                  </a>
-                )}
-              </span>
-            ))}
-          </nav>
-        )}
-      </header>
+      <Breadcrumbs byId={byId} focusId={focusId} setFocusId={setFocusId} />
 
       <div
         ref={fieldRef}
