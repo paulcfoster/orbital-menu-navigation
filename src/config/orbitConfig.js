@@ -6,6 +6,14 @@
 
 const DEG = Math.PI / 180
 
+// Angular speed (radians/sec) for the satellite at a given index. Slight
+// per-item variation keeps the orbits from looking mechanical.
+// Currently set for no variation.
+export const speedFor = (i) =>
+  orbitConfig.baseSpeed + (i % 3) * orbitConfig.speedVariation
+
+export const ZOOM_SCALE = 7 // must match planet.css .orbit-field.zooming scale()
+
 export const orbitConfig = {
   // ─── Size & position of the whole system ─────────────────────────────
   radiusFactor: 0.33, // orbit radius as a fraction of the smaller viewport side
@@ -31,6 +39,9 @@ export const orbitConfig = {
   baseSpeed: 0.22, // angular speed in radians/sec
   speedVariation: 0.0, // per-satellite speed spread, to de-sync the orbits
   releaseDuration: 700, // ms to glide a frozen satellite back to its true orbit on mouseout
-}
 
-export default orbitConfig
+  // ─── Misc ──────────────────────────────────────────────────────────
+  animateStarsOnClick: true, // animate the starfield when zooming
+  starAnimationIncrement: 100, // rotate the starfield when zooming
+
+}

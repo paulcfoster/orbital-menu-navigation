@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { parseCsv, buildMenuTree } from './csv.js'
-import OrbitalMenu from './OrbitalMenu.jsx'
+import { parseCsv, buildMenuTree } from './util/csv.js'
+import OrbitalMenu from './components/OrbitalMenu.jsx'
 
 export default function App() {
   const [tree, setTree] = useState(null)

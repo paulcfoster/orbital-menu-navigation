@@ -50,6 +50,7 @@
   height: 150px;
   border: none;
   cursor: pointer;
+  z-index: 2;
   /* earthshine */
   box-shadow:
     0 0 60px rgba(74, 166, 255, 0.55),

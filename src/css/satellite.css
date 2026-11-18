@@ -30,7 +30,7 @@
   font-size: 0.6rem;
   white-space: nowrap;
   color: #dfe7ff;
-  text-shadow: 0 1px 6px #000;
+  /* text-shadow: 0 1px 6px #000; */
 }
 
 .satellite .description-panel {
