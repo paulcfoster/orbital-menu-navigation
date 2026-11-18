@@ -46,38 +46,49 @@ export default function Satellite({
 
   const hoverAllowed = isZooming ? 'none' : 'default'
 
+   // If children, append unordered list to description.
+  // Else append an indicator demonstrating a link to a page.
+  const nodeDescription = () => {
+    return (
+      node.children.length > 0 ? (
+        <p>{node.description}</p>
+      ) : (
+        <p><a href="{node.link}" target="_blank" rel="noopener noreferrer">{node.description}</a></p>
+      )
+    );
+  }
+
   return (
     <div
       role="button"
       tabIndex={0}
-      className={`satellite${isHovered ? ' frozen' : ''}${
-        node.children.length ? ` has-children-${node.children.length}` : ''
-      }`}
+      className={`satellite${isHovered ? ' frozen' : ''}`}
       style={{ pointerEvents: hoverAllowed, left: x, top: y, transform: `scale(${depth})`, opacity, zIndex }}
       onMouseEnter={() => setHoveredId(node.id)}
       onMouseLeave={() => setHoveredId((cur) => (cur === node.id ? null : cur))}
       onClick={() => onSelect(node, x, y, cx, cy)}
       onKeyDown={handleKeyDown}
     >
-      <span className="base-sphere satellite-dot" />
+      <span 
+        className={`base-sphere satellite-dot${node.children.length ? '' : ' no-children'}`}
+      />
       {!isZooming && (
         <span className="satellite-label">{node.label}</span>
       )}
       {isHovered && (
         <div className="description-panel">
           <h2 className="satellite-label">{node.label}</h2>
-          <p>{node.description}</p>
+          { nodeDescription() }
           {node.children.length > 0 && (
             <ul className="children-links">
               {node.children.map((child) => (
                 <li key={child.id}>
                   {child.children.length > 0 ? (
-                    <a
-                      href=""
+                    <div
                       onClick={(e) => {e.stopPropagation(); onSelect(child, x, y, cx, cy);}}
                     >
                       {child.label}
-                    </a>
+                    </div>
                   ) : (
                     <a
                       href={child.link}

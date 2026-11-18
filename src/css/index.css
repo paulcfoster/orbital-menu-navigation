@@ -6,10 +6,10 @@
   color-scheme: dark;
   --planet-color-highlight: #ffbfec;
   --planet-color-median: #ff4a8c;
-  --planet-color-shadow: #1a418f;
-  --satellite-color-highlight: #f97970;
-  --satellite-color-median: #fc4538;
-  --satellite-color-shadow: #57082f;
+  --planet-color-shadow: #8f1a2c;
+  --satellite-color-highlight: #ffd27a;
+  --satellite-color-median: #38befc;
+  --satellite-color-shadow: #1d6b5a;
 }
 
 * {

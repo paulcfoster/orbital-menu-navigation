@@ -123,14 +123,12 @@ export default function OrbitalMenu({ tree }) {
       } else {
         setZoom({ dx: cx, dy: cy })
       }
-
       window.setTimeout(() => {
         setFocusId(node.id)
         setZoom(null)
       }, 650)
     } else if (node.link) {
       window.open(node.link, '_blank', 'noopener')
-      // console.log('open html page')
     }
   }
 
