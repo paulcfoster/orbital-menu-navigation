@@ -21,7 +21,7 @@ export default function Breadcrumbs({ byId, focusId, setFocusId }) {
           <span key={node.id} className={node.id}>
             {<span className="breadcrumb-sep"> › </span>}
             {index === arr.length - 1 ? (
-              <span className="breadcrumb-current">{node.label}</span>
+              <span className="breadcrumb-current">Now orbiting: {node.label}</span>
             ) : (
               <a
                 className="breadcrumb-link"

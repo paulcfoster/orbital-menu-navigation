@@ -45,18 +45,34 @@ export default function Satellite({
   }
 
   const hoverAllowed = isZooming ? 'none' : 'default'
+  const isHoveredWithChildren = isHovered && node.children.length > 0
 
    // If children, append unordered list to description.
   // Else append an indicator demonstrating a link to a page.
   const nodeDescription = () => {
     return (
       node.children.length > 0 ? (
-        <p>{node.description}</p>
+        <p>
+          {node.description}
+          <br/><span>»»</span>
+          Click to enter orbit.
+        </p>
       ) : (
-        <p><a href="{node.link}" target="_blank" rel="noopener noreferrer">{node.description}</a></p>
+        <p>
+          {node.description}
+          <br/><span>»»</span>
+          <a 
+          href={`${node.link}`}
+          target="_blank" 
+          rel="noopener noreferrer" 
+          >
+            Land on planet {node.label}
+          </a> 
+        </p>
       )
     );
   }
+
 
   return (
     <div
@@ -69,9 +85,12 @@ export default function Satellite({
       onClick={() => onSelect(node, x, y, cx, cy)}
       onKeyDown={handleKeyDown}
     >
+      
       <span 
         className={`base-sphere satellite-dot${node.children.length ? '' : ' no-children'}`}
-      />
+      >
+        {isHoveredWithChildren && (<div className="mini-satellite"></div>)}
+      </span>
       {!isZooming && (
         <span className="satellite-label">{node.label}</span>
       )}

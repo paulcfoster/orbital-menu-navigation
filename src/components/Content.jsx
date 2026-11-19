@@ -51,9 +51,12 @@ export default function OrbitContent({
 
   const coreSphereStyles = { left: cx, top: cy }
   const testAttr = "tabindex: '-1'"
+  let mainSphereLabel = '↑ to '
   // Planet is not clickable if at top level.
   if (!focusNode) {
     coreSphereStyles.pointerEvents = 'none'
+  } else {
+    mainSphereLabel += focusNode.parentId !== "" ? focusNode.parentId : 'top'
   }
 
   return (
@@ -66,7 +69,7 @@ export default function OrbitContent({
         aria-label={focusNode ? 'Zoom back out' : ''}
         tabIndex={focusNode ? '1' : '-1'}
       >
-        {/* {focusNode && (<span>up</span>)} */}
+        {focusNode && (<span>{mainSphereLabel}</span>)}
       </button>
 
       {satellites.map((node) => (

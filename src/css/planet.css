@@ -61,12 +61,17 @@
 .core-sphere span {
   top:0;
   right: 0;
-  color: var(--planet-color-shadow);
-  text-shadow: 0 1px 4px var(--planet-color-highlight);
   z-index: 2;
   font-family: monospace;
   text-transform: lowercase;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
+  color: white;
+  text-shadow: 0 1px 1px var(--planet-color-shadow);
+  opacity: 0;
+  transition: opacity 0.5s
+}
+.core-sphere:hover span {
+  opacity: 0.9;
 }
 
 @keyframes corePulse {

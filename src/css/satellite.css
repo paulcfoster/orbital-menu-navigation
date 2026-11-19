@@ -45,7 +45,7 @@
   translate: -50% -1rem;
   scale: 0.5;
   transform-origin: top center;
-  width: 12rem;
+  min-width: 12rem;
   padding: 0.8rem;
   background: rgba(10, 14, 32, 0.82);
   border: 1px solid rgba(108, 198, 255, 0.3);
@@ -77,17 +77,12 @@
 .satellite .description-panel p a:hover {
   text-decoration: underline;
 }
-
-.satellite .description-panel .hint {
-  margin-top: 0.6rem;
-  display: block;
-  color: var(--accent-warm);
-  letter-spacing: 0.03em;
+.satellite .description-panel p span {
+  color: var(--accent);
+  padding-right: 1em;
 }
 
 .children-links {
-  /* list-style: none; */
-  /* margin: 0.8rem 0; */
   padding: 0 1rem;
 }
 
@@ -98,8 +93,7 @@
 .children-links a,
 .children-links div {
   color: var(--accent);
-  text-decoration: none;
-  transition: text-decoration 0.15s;
+  text-decoration: none; 
   pointer-events: auto;
 }
 
@@ -107,11 +101,53 @@
   font-weight: bold;
 }
 
-.children-links a:hover {
-  text-decoration: underline;
+.children-links a:hover:after {
+  content: ' (click to land)'
 }
 
 .children-links div:hover:after {
   font-weight: normal;
-  content: ' »»'
+  content: ' (click to orbit)'
+}
+
+/* Mini-satellite orbit animation (appears when satellite is frozen) */
+@property --angle {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@property --z {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@keyframes revolve {
+  from {
+    --angle: 0deg;
+    --z: -1;
+  }
+  to {
+    --angle: 360deg;
+    --z: 0;
+  }
+}
+
+.mini-satellite {
+  position:absolute;
+  top:3px;
+  left:48%;
+  background: var(--planet-color-median);
+  width: 2px;
+  height: 1px;
+  --x-amplitude: 8px;
+  --y-amplitude: 3px;
+  --x: calc(cos(var(--angle)) * var(--x-amplitude));
+  --y: calc(sin(var(--angle)) * var(--y-amplitude));
+  transform:
+    rotate(-15deg)
+    translate(var(--x), var(--y));
+  z-index: calc(var(--z)); /* calc() is for Safari */
+  animation: revolve .5s linear infinite;
 }
